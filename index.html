@@ -1,0 +1,243 @@
+<!DOCTYPE html>  <html lang="hi">  
+<head>  
+<meta charset="utf-8">  
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">  
+<title>Mera Hisaab</title>  
+<style>  
+:root{--bg:#EEF3F1;--surface:#FFFFFF;--ink:#13302B;--muted:#5E7570;--line:#D5E0DC;--out:#C2410C;--in:#0F766E;--accent:#0F766E;--onaccent:#FFFFFF;  
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}  
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E1B18;--surface:#162824;--ink:#E4EFEC;--muted:#8FA8A2;--line:#27403A;--out:#FB923C;--in:#2DD4BF;--accent:#2DD4BF;--onaccent:#0E1B18;color-scheme:dark}}  
+:root[data-theme="dark"]{--bg:#0E1B18;--surface:#162824;--ink:#E4EFEC;--muted:#8FA8A2;--line:#27403A;--out:#FB923C;--in:#2DD4BF;--accent:#2DD4BF;--onaccent:#0E1B18;color-scheme:dark}  
+*{box-sizing:border-box}  
+html{scroll-padding-top:env(safe-area-inset-top,0px)}  
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hind","Noto Sans Devanagari",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:16px;line-height:1.5}  
+main{max-width:560px;margin:0 auto;padding:20px 16px 48px}  
+h1{font-size:1.7rem;margin:0 0 2px;font-weight:700;line-height:1.25}  
+.nm{color:var(--accent);display:inline-block}  
+.nm span{display:inline-block;opacity:0;transform:translateY(14px) scale(.8);animation:pop .6s cubic-bezier(.2,.9,.3,1.4) forwards;animation-delay:calc(var(--i)*100ms + 250ms)}  
+@keyframes pop{to{opacity:1;transform:none}}  
+.wave{display:inline-block;transform-origin:70% 70%;animation:wave 1.6s ease-in-out 1s 2}  
+@keyframes wave{0%,100%{transform:rotate(0)}20%{transform:rotate(16deg)}40%{transform:rotate(-10deg)}60%{transform:rotate(14deg)}80%{transform:rotate(-4deg)}}  
+.sub{color:var(--muted);font-size:.95rem;margin-bottom:14px}  
+@media (prefers-reduced-motion:reduce){.nm span{opacity:1;transform:none;animation:none}.wave{animation:none}}  
+.month{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}  
+.month button{background:none;border:1px solid var(--line);color:var(--ink);width:40px;height:40px;border-radius:50%;font-size:1.1rem;cursor:pointer}  
+.month b{font-size:1.05rem}  
+.hero{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px}  
+.hero .lbl{color:var(--muted);font-size:.9rem}  
+.hero .big{font-size:2.4rem;font-weight:700;color:var(--out);line-height:1.15}  
+.row{display:flex;gap:10px;margin-top:14px}  
+.row>div{flex:1;border-top:1px solid var(--line);padding-top:10px}  
+.row .v{font-weight:700;font-size:1.1rem}  
+.in{color:var(--in)}.out{color:var(--out)}  
+.today{margin-top:10px;font-size:.95rem;color:var(--muted)}  
+.today b{color:var(--ink)}  
+section{margin-top:18px}  
+h2{font-size:1rem;margin:0 0 8px}  
+form{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px;display:grid;gap:10px}  
+.seg{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:10px;overflow:hidden}  
+.seg button{border:0;background:none;color:var(--muted);padding:9px;font:inherit;font-weight:600;cursor:pointer}  
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--onaccent)}  
+input,select{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 12px;width:100%;min-height:44px}  
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}  
+.amt{font-size:1.4rem;font-weight:700}  
+.go{background:var(--accent);color:var(--onaccent);border:0;border-radius:10px;padding:12px;font:inherit;font-weight:700;cursor:pointer;min-height:46px}  
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}  
+.cat{margin-bottom:10px}  
+.cat .t{display:flex;justify-content:space-between;font-size:.92rem}  
+.bar{height:8px;background:var(--line);border-radius:4px;margin-top:4px;overflow:hidden}  
+.bar i{display:block;height:100%;background:var(--out);border-radius:4px}  
+.day{color:var(--muted);font-size:.85rem;margin:14px 0 4px}  
+.item{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:6px}  
+.item .n{flex:1;min-width:0}  
+.item .n span{display:block;color:var(--muted);font-size:.82rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}  
+.item .a{font-weight:700}  
+.item button{background:none;border:0;color:var(--muted);font-size:1.2rem;cursor:pointer;width:36px;height:36px}  
+.empty{color:var(--muted);text-align:center;padding:18px 0}  
+.tools{display:flex;justify-content:flex-end;margin-top:20px}  
+.tools button{background:none;border:1px solid var(--line);color:var(--muted);border-radius:8px;padding:6px 12px;font:inherit;font-size:.85rem;cursor:pointer}  
+.bud{margin-top:12px;border-top:1px solid var(--line);padding-top:10px}  
+.bud .t{display:flex;justify-content:space-between;font-size:.9rem;color:var(--muted)}  
+.bud .bar i{background:var(--in)}  
+.bud.warn .bar i{background:#D97706}  
+.bud.over .bar i{background:var(--out)}  
+.bud .msg{font-size:.88rem;margin-top:4px}  
+.lnk{background:none;border:0;color:var(--accent);font:inherit;font-size:.88rem;cursor:pointer;padding:4px 0;text-decoration:underline}  
+.cmp{font-size:.88rem;color:var(--muted);margin-top:4px}  
+.chips{display:flex;gap:8px;flex-wrap:wrap}  
+.chips button{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:999px;padding:6px 14px;font:inherit;font-size:.88rem;cursor:pointer}  
+#flt{margin-bottom:6px}  
+textarea{font:inherit;font-size:.8rem;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px;width:100%;margin-top:12px}  
+#exp .go{margin-top:8px;width:100%}  
+.tools{gap:8px}  
+main{position:relative}  
+.av{position:absolute;top:20px;right:16px;width:56px;height:56px;border-radius:50%;border:2px solid var(--accent);background:var(--surface);overflow:hidden;cursor:pointer;padding:0;color:var(--accent);font-size:1.6rem;line-height:1}  
+.av img{display:block;width:100%;height:100%;object-fit:cover}  
+.av img[hidden],.av span[hidden]{display:none}  
+h1,.sub{padding-right:68px}  
+</style>  
+</head>  
+<body>  
+<main>  
+<button class="av" id="av" type="button" aria-label="Apni photo lagayein ya badlein"><img id="avimg" alt="Vikas ki photo" hidden><span id="avph">+</span></button>  
+<input type="file" id="avf" accept="image/*" hidden>  
+<h1>Namaste, <span class="nm" aria-label="Vikas"><span style="--i:0" aria-hidden="true">V</span><span style="--i:1" aria-hidden="true">i</span><span style="--i:2" aria-hidden="true">k</span><span style="--i:3" aria-hidden="true">a</span><span style="--i:4" aria-hidden="true">s</span></span> <span class="wave" aria-hidden="true">👋</span></h1>  
+<div class="sub">Mera Hisaab: aaj ka paisa, ek jagah</div>  <div class="month">  
+  <button id="prev" aria-label="Pichla mahina">‹</button>  
+  <b id="mlabel"></b>  
+  <button id="next" aria-label="Agla mahina">›</button>  
+</div>  <div class="hero">  
+  <div class="lbl">Is mahine ka kharcha</div>  
+  <div class="big" id="spent">₹0</div>  
+  <div class="row">  
+    <div><div class="lbl">Aamdani</div><div class="v in" id="inc">₹0</div></div>  
+    <div><div class="lbl">Bacha</div><div class="v" id="bal">₹0</div></div>  
+  </div>  
+  <div class="today">Aaj ka kharcha: <b id="today">₹0</b></div>  
+  <div class="cmp" id="cmp"></div>  
+  <div class="bud" id="bud"></div>  
+</div>  <section>  
+  <h2>Naya entry jodein</h2>  
+  <form id="f">  
+    <div class="seg" role="group" aria-label="Type">  
+      <button type="button" id="tOut" aria-pressed="true">Kharcha</button>  
+      <button type="button" id="tIn" aria-pressed="false">Aamdani</button>  
+    </div>  
+    <div class="chips" id="chips"><button type="button" data-c="Chai/Nashta" data-n="Chai">Chai</button><button type="button" data-c="Travel" data-n="Auto">Auto</button><button type="button" data-c="Khana" data-n="Khana">Khana</button><button type="button" data-c="Bills" data-n="Recharge">Recharge</button></div>  
+    <input class="amt" id="amt" type="number" inputmode="decimal" min="0" step="any" placeholder="₹ Rakam" required aria-label="Rakam">  
+    <div class="two">  
+      <select id="cat" aria-label="Category"></select>  
+      <input id="date" type="date" required aria-label="Tareekh">  
+    </div>  
+    <select id="pay" aria-label="Payment ka tareeka"><option>UPI</option><option>Cash</option><option>Card</option></select>  
+    <input id="note" type="text" maxlength="60" placeholder="Note (optional), jaise chai, auto" aria-label="Note">  
+    <button class="go" type="submit">Entry save karein</button>  
+  </form>  
+</section>  <section id="catsec" hidden>  
+  <h2>Kahan kharch hua</h2>  
+  <div id="cats"></div>  
+</section>  <section>  
+  <h2>Is mahine ki entries</h2>  
+  <select id="flt" aria-label="Category filter"></select>  
+  <div id="list"></div>  
+</section>  <div id="exp" hidden><textarea id="csv" readonly rows="6" aria-label="CSV data"></textarea><button id="cp" class="go" type="button">Copy karein</button></div>  
+<div class="tools"><button id="export">Excel/CSV nikalein</button><button id="clear">Saara data hatayein</button></div>  
+</main>  <script>  
+(function(){  
+  var KEY="mera-hisaab-v1",BKEY="mera-hisaab-budget",budget=0,editB=false;  
+  var CATS={out:["Khana","Chai/Nashta","Travel","Bills","Shopping","Health","Manoranjan","Ghar","Anya"],in:["Salary","Business","Gift","Anya"]};  
+  var type="out", items=[], cur=new Date(); cur.setDate(1);  
+  
+  function load(){try{var r=localStorage.getItem(KEY);if(r)items=JSON.parse(r)||[]}catch(e){items=[]}try{budget=parseFloat(localStorage.getItem(BKEY))||0}catch(e){budget=0}}  
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(items))}catch(e){}}  
+  function $(id){return document.getElementById(id)}  
+  function inr(n){return "₹"+Math.round(n).toLocaleString("en-IN")}  
+  function iso(d){var m=d.getMonth()+1,x=d.getDate();return d.getFullYear()+"-"+(m<10?"0":"")+m+"-"+(x<10?"0":"")+x}  
+  function mkey(d){return iso(d).slice(0,7)}  
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}  
+  
+  function fillFlt(){  
+    var all=CATS.out.concat(CATS.in.filter(function(c){return CATS.out.indexOf(c)<0}));  
+    $("flt").innerHTML='<option value="all">Saari categories</option>'+all.map(function(c){return '<option>'+c+'</option>'}).join("");  
+  }  
+  function renderBudget(out){  
+    var b=$("bud");  
+    if(editB){b.className="bud";b.innerHTML='<div class="two"><input id="binp" type="number" inputmode="numeric" min="0" placeholder="₹ Mahine ka budget" value="'+(budget||"")+'"><button id="bsave" class="go" type="button">Save</button></div>';return}  
+    if(!budget){b.className="bud";b.innerHTML='<button id="setb" class="lnk" type="button">Mahine ka budget set karein</button>';return}  
+    var p=Math.min(100,out/budget*100),left=budget-out;  
+    b.className="bud"+(out>budget?" over":(out>=budget*0.8?" warn":""));  
+    b.innerHTML='<div class="t"><span>Budget '+inr(budget)+'</span><span>'+Math.round(out/budget*100)+'% use hua</span></div><div class="bar"><i style="width:'+p+'%"></i></div><div class="msg">'+(left>=0?inr(left)+" bacha hai":"Budget se "+inr(-left)+" zyada kharch ho gaya")+'</div><button id="setb" class="lnk" type="button">Budget badlein</button>';  
+  }  
+  function fillCats(){  
+    $("cat").innerHTML=CATS[type].map(function(c){return "<option>"+c+"</option>"}).join("");  
+  }  
+  function setType(t){  
+    type=t;  
+    $("tOut").setAttribute("aria-pressed",t==="out");  
+    $("tIn").setAttribute("aria-pressed",t==="in");  
+    fillCats();  
+  }  
+  
+  function render(){  
+    var mk=mkey(cur);  
+    $("mlabel").textContent=cur.toLocaleDateString("en-IN",{month:"long",year:"numeric"});  
+    var m=items.filter(function(i){return i.date.slice(0,7)===mk});  
+    var out=0,inc=0,by={};  
+    m.forEach(function(i){  
+      if(i.type==="out"){out+=i.amt;by[i.cat]=(by[i.cat]||0)+i.amt}else inc+=i.amt;  
+    });  
+    $("spent").textContent=inr(out);  
+    $("inc").textContent=inr(inc);  
+    var bal=inc-out;  
+    $("bal").textContent=(bal<0?"-":"")+inr(Math.abs(bal));  
+    $("bal").className="v "+(bal<0?"out":"in");  
+    var td=iso(new Date()),t=0;  
+    items.forEach(function(i){if(i.date===td&&i.type==="out")t+=i.amt});  
+    $("today").textContent=inr(t);  
+    var pm=new Date(cur);pm.setMonth(pm.getMonth()-1);var pk=mkey(pm),po=0;  
+    items.forEach(function(i){if(i.type==="out"&&i.date.slice(0,7)===pk)po+=i.amt});  
+    var cm=$("cmp");  
+    if(po>0){var df=out-po;cm.textContent=df>0?"Pichle mahine se "+inr(df)+" zyada kharcha":(df<0?"Pichle mahine se "+inr(-df)+" kam kharcha":"Pichle mahine jitna hi kharcha")}else cm.textContent="";  
+    renderBudget(out);  
+  
+    var keys=Object.keys(by).sort(function(a,b){return by[b]-by[a]});  
+    $("catsec").hidden=!keys.length;  
+    $("cats").innerHTML=keys.map(function(k){  
+      var p=out?by[k]/out*100:0;  
+      return '<div class="cat"><div class="t"><span>'+esc(k)+'</span><span>'+inr(by[k])+' ('+Math.round(p)+'%)</span></div><div class="bar"><i style="width:'+p+'%"></i></div></div>';  
+    }).join("");  
+  
+    var fv=$("flt").value,sh=(fv&&fv!=="all")?m.filter(function(i){return i.cat===fv}):m;  
+    if(!sh.length){$("list").innerHTML='<div class="empty">'+(m.length?"Is category mein koi entry nahi hai.":"Is mahine koi entry nahi hai. Upar se pehla kharcha jodein.")+'</div>';return}  
+    m=sh;  
+    m.sort(function(a,b){return b.date.localeCompare(a.date)||b.id-a.id});  
+    var h="",last="";  
+    m.forEach(function(i){  
+      if(i.date!==last){  
+        last=i.date;  
+        var d=new Date(i.date+"T00:00:00");  
+        h+='<div class="day">'+(i.date===td?"Aaj, ":"")+d.toLocaleDateString("en-IN",{weekday:"short",day:"numeric",month:"short"})+'</div>';  
+      }  
+      h+='<div class="item"><div class="n"><b>'+esc(i.cat)+'</b>'+((i.pay||i.note)?'<span>'+esc([i.pay,i.note].filter(Boolean).join(", "))+'</span>':'')+'</div><div class="a '+i.type+'">'+(i.type==="out"?"-":"+")+inr(i.amt)+'</div><button data-id="'+i.id+'" aria-label="Entry hatayein">×</button></div>';  
+    });  
+    $("list").innerHTML=h;  
+  }  
+  
+  $("tOut").onclick=function(){setType("out")};  
+  $("tIn").onclick=function(){setType("in")};  
+  $("prev").onclick=function(){cur.setMonth(cur.getMonth()-1);render()};  
+  $("next").onclick=function(){cur.setMonth(cur.getMonth()+1);render()};  
+  
+  $("f").addEventListener("submit",function(e){  
+    e.preventDefault();  
+    var a=parseFloat($("amt").value);  
+    if(!(a>0))return;  
+    var d=$("date").value||iso(new Date());  
+    items.push({id:Date.now(),type:type,amt:a,cat:$("cat").value,date:d,pay:$("pay").value,note:$("note").value.trim()});  
+    $("flt").value="all";  
+    save();  
+    $("amt").value="";$("note").value="";  
+    cur=new Date(d+"T00:00:00");cur.setDate(1);  
+    render();  
+    $("amt").focus();  
+  });  
+  
+  $("list").addEventListener("click",function(e){  
+    var id=e.target.getAttribute&&e.target.getAttribute("data-id");  
+    if(!id)return;  
+    items=items.filter(function(i){return String(i.id)!==id});  
+    save();render();  
+  });  
+  
+  $("clear").onclick=function(){  
+    if(confirm("Saari entries hamesha ke liye hat jayengi. Pakka hatayein?")){items=[];save();render()}  
+  };  
+  
+  $("chips").addEventListener("click",function(e){var c=e.target.getAttribute&&e.target.getAttribute("data-c");if(!c)return;setType("out");$("cat").value=c;$("note").value=e.target.getAttribute("data-n")||"";$("amt").focus()});  
+  $("flt").onchange=render;  
+  $("bud").addEventListener("click",function(e){var id=e.target.id;if(id==="setb"){editB=true;render();var bi=$("binp");if(bi)bi.focus()}else if(id==="bsave"){var v=parseFloat($("binp").value);budget=v>0?v:0;try{localStorage.setItem(BKEY,String(budget))}catch(x){}editB=false;render()}});  
+  $("export").onclick=function(){var rows=["Date,Type,Category,Mode,Note,Amount"];items.slice().sort(function(a,b){return a.date.localeCompare(b.date)}).forEach(function(i){rows.push([i.date,i.type==="out"?"Kharcha":"Aamdani",i.cat,i.pay||"",'"'+(i.note||"").replace(/"/g,'""')+'"',i.amt].join(","))});$("csv").value=rows.join("\n");$("exp").hidden=!$("exp").hidden};  
+  $("cp").onclick=function(){var ta=$("csv");ta.focus();ta.select();var ok=false;try{ok=document.execCommand("copy")}catch(x){}$("cp").textContent=ok?"Copy ho gaya":"Select ho gaya, ab copy karein"};  
+  var AKEY="mera-hisaab-photo";  
+  function showAv(src){var im=$("avimg");if(src){im.src=src;im.hidden=false;$("avph").hidden=true}else{im.hidden=true;$("avph").hidden=false}}  
+  var DEMO="data:image/jpeg;base64,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
